@@ -7,9 +7,9 @@ from tensorflow.keras.layers import Conv2D, MaxPooling2D, Flatten, Dense, Dropou
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from sklearn.model_selection import train_test_split
 
-# Define paths
-train_dir = 'Masked-fer2013/train'       # Change this to your train directory path
-validation_dir = 'Masked-fer2013/validation'  # Change this to your validation directory path
+
+train_dir = 'Masked-fer2013/train'     
+validation_dir = 'Masked-fer2013/validation' 
 
 # Image data generator for data augmentation
 train_datagen = ImageDataGenerator(rescale=1./255)
@@ -43,7 +43,7 @@ model = Sequential([
     Flatten(),
     Dense(128, activation='relu'),
     Dropout(0.5),
-    Dense(7, activation='softmax')  # Assuming 7 emotions
+    Dense(7, activation='softmax')  
 ])
 
 model.compile(optimizer='adam',
@@ -66,12 +66,12 @@ def predict_emotion(image_path):
     image = cv2.imread(image_path)
     image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     image = cv2.resize(image, (48, 48))
-    image = image.reshape(1, 48, 48, 1) / 255.0  # Normalize the image
+    image = image.reshape(1, 48, 48, 1) / 255.0  
     prediction = model.predict(image)
     emotion = np.argmax(prediction)
     return emotion
 
 # Test the prediction
-test_image_path = 'test.jpeg'  # Change this to the path of your test image
+test_image_path = 'test.jpeg' 
 emotion = predict_emotion(test_image_path)
 print(f"Predicted Emotion: {emotion}")
